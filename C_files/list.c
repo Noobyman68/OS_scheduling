@@ -11,17 +11,25 @@
 
 
 // add a new task to the list of tasks
-void insert(node **head, Task *newTask) {
+int insert(node **head, Task *newTask) {
     // add the new task to the list 
     node *newNode = malloc(sizeof(node));
+
+    if(newNode == NULL){
+      printf("Failure allocating memory");
+      return -1;
+    }
 
     newNode->task = newTask;
     newNode->next = *head;
     *head = newNode;
+
+    return 0;
 }
 
 // delete the selected task from the list
 void delete(node **head, Task *task) {
+    // After all cases temp will point to the deleted node
     node *temp;
     node *prev;
 
@@ -29,11 +37,15 @@ void delete(node **head, Task *task) {
     // special case - beginning of list
     if (strcmp(task->name,temp->task->name) == 0) {
         *head = (*head)->next;
-    }
-    else {
+
+        // pointers to freed memory should be set to null to prevent hanging pointers
+        *head = NULL;
+        head = NULL;
+    }else{
         // interior or last element in the list
         prev = *head;
         temp = temp->next;
+
         while (strcmp(task->name,temp->task->name) != 0) {
             prev = temp;
             temp = temp->next;
@@ -41,6 +53,8 @@ void delete(node **head, Task *task) {
 
         prev->next = temp->next;
     }
+    // nodes are malloced and need to be freed to avoid memory leaks
+    free(temp);
 }
 
 // traverse the list
