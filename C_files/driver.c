@@ -26,10 +26,16 @@ int main(int argc, char *argv[])
     int priority;
     int burst;
 
-    in = fopen(argv[1],"r");
+    if((in = fopen(argv[1],"r")) == NULL){
+      printf("Error opening file");
+      return -1;
+    }
     
     while (fgets(task,SIZE,in) != NULL) {
-        temp = strdup(task);
+
+        // Dont need to work with a copy of task because it gets new values each time
+        // Can use a temp pointer to current char in task rather than mallocing and freeing temp string
+        temp = task;
         name = strsep(&temp,",");
         priority = atoi(strsep(&temp,","));
         burst = atoi(strsep(&temp,","));
@@ -37,7 +43,6 @@ int main(int argc, char *argv[])
         // add the task to the scheduler's list of tasks
         add(name,priority,burst);
 
-        free(temp);
     }
 
     fclose(in);
