@@ -4,7 +4,9 @@ For each specific scheduling file, include:
  - should return error code
  - takes in task data (name, priority, burst time)
 2. start function implementaion
-- should run the run the tasks in the shceduled order
+ - should run the run the tasks in the shceduled order
+ - Start function will call run from cpu.h
+  * Will need to provide time slice within start function
 
 Scheduling algorithms:
  - schedule_fcfs.c
@@ -21,7 +23,10 @@ and define functions that would be passed to sort in each file
 *IMPORTANT NOTES*
 - list adds nodes to the front of list rather than end
 - list deletes nodes by searching from head to end of list
- 
+- SOLUTION-
+- change insert to add nodes to end of list
+  * insert after last to avoid traversal of list with each call
+  * will need to store last pointer but that is a small memory cost
 
 
  can use static global varaible to hold tid,
@@ -31,3 +36,5 @@ and define functions that would be passed to sort in each file
  - declare at start and assign it when tid == 0
  - head should be a pointer to the head rather than just the head itself
  
+
+

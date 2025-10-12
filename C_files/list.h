@@ -13,7 +13,7 @@ typedef struct node {
 } node;
 
 // insert and delete operations.
-void insert(struct node **head, Task *task);
+void insert(struct node **last, Task *task);
 void delete(struct node **head, Task *task);
 void traverse(struct node *head);
 

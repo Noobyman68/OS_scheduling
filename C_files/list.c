@@ -11,18 +11,20 @@
 
 
 // add a new task to the list of tasks
-int insert(node **head, Task *newTask) {
-    // add the new task to the list 
+int insert(node **last, Task *newTask) {
     node *newNode = malloc(sizeof(node));
 
     if(newNode == NULL){
       printf("Failure allocating memory\n");
       return -1;
     }
-
+    
+    //insert nodes at end of list instead of at front for simplicity
+    //insert after last, instead of head, to avoid list traversal with each call
     newNode->task = newTask;
-    newNode->next = *head;
-    *head = newNode;
+    newNode->next = NULL;
+    *last->next = newNode;
+    *last = newNode; //using **last to pass *last by reference
 
     return 0;
 }
