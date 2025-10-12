@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     int burst;
 
     if((in = fopen(argv[1],"r")) == NULL){
-      printf("Error opening file");
+      printf("Error opening file\n");
       return -1;
     }
     

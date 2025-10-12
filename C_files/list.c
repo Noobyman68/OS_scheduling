@@ -16,7 +16,7 @@ int insert(node **head, Task *newTask) {
     node *newNode = malloc(sizeof(node));
 
     if(newNode == NULL){
-      printf("Failure allocating memory");
+      printf("Failure allocating memory\n");
       return -1;
     }
 
