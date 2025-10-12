@@ -1,0 +1,33 @@
+For each specific scheduling file, include:
+1. add function implementation
+ - add should implement sorting and then call insert from list.h
+ - should return error code
+ - takes in task data (name, priority, burst time)
+2. start function implementaion
+- should run the run the tasks in the shceduled order
+
+Scheduling algorithms:
+ - schedule_fcfs.c
+ - schedule_sjf.c
+ - schedule_rr.c
+ - schedule_priority.c
+ - schedule_priority_rr.c
+
+
+Could have sort be a higher order function in list.c
+and define functions that would be passed to sort in each file
+
+
+*IMPORTANT NOTES*
+- list adds nodes to the front of list rather than end
+- list deletes nodes by searching from head to end of list
+ 
+
+
+ can use static global varaible to hold tid,
+ - tid can be used to check if list has head
+
+ need to define head as a static variable so it can be used outside of and across multiple funciton calls
+ - declare at start and assign it when tid == 0
+ - head should be a pointer to the head rather than just the head itself
+ 
