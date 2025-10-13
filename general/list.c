@@ -11,7 +11,7 @@
 
 
 // add a new task to the list of tasks
-int insert(node **last, Task *newTask) {
+int insert(node **head, Task *newTask) {
     node *newNode = malloc(sizeof(node));
 
     if(newNode == NULL){
@@ -19,12 +19,9 @@ int insert(node **last, Task *newTask) {
       return -1;
     }
     
-    //insert nodes at end of list instead of at front for simplicity
-    //insert after last, instead of head, to avoid list traversal with each call
     newNode->task = newTask;
-    newNode->next = NULL;
-    (*last)->next = newNode;
-    (*last) = newNode; //using **last to pass *last by reference
+    newNode->next = *head;
+    *head = newNode;
 
     return 0;
 }
@@ -61,11 +58,15 @@ void delete(node **head, Task *task) {
 
 // traverse the list
 void traverse(node *head) {
-    node *temp;
-    temp = head;
+    node *temp = head;
+//    temp = head;
+    printf("traversal start, head: %p, temp: %p\n", head, temp);
 
     while (temp != NULL) {
+        printf("%p\n", temp->next);
         printf("[%s] [%d] [%d]\n",temp->task->name, temp->task->priority, temp->task->burst);
+        printf("%p\n", temp->next);
         temp = temp->next;
+        printf("%p\n", temp->next);
     }
 }
