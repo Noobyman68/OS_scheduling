@@ -12,31 +12,31 @@ node *last;
 //return the index of list position or -1 for error
 int add(char *name, int priority, int burst){
   int check = 0;
-  Task *new_task; 
-  new_task->name = name;
-  new_task->tid = tid;
-  new_task->priority = priority;
-  new_task->burst = burst;
-
-  
-
-
+  printf("Creating task\n");
+  Task new_task = {name, tid, priority, burst};
+  Task *task_ptr = &new_task; 
+  printf("task created\n");
 
   if(tid){
-    if((check = insert(&last, new_task)) < 0){
+    printf("insert starting\n");
+    if((check = insert(&last, task_ptr)) < 0){
       printf("error adding task\n");
       return -1;
     }
+    printf("insert ending\n");
   }else{
-    head->task = new_task;
+    printf("adding head\n");
+    head->task = task_ptr;
     head->next = NULL;
     last = head;
+    printf("Head added\n");
   }
   tid++;
   return 0;
 }
 
 void schedule(){
+  printf("traversing\n");
   traverse(head);
 }
 
