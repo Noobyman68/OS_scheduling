@@ -23,8 +23,8 @@ int insert(node **last, Task *newTask) {
     //insert after last, instead of head, to avoid list traversal with each call
     newNode->task = newTask;
     newNode->next = NULL;
-    *last->next = newNode;
-    *last = newNode; //using **last to pass *last by reference
+    (*last)->next = newNode;
+    (*last) = newNode; //using **last to pass *last by reference
 
     return 0;
 }
