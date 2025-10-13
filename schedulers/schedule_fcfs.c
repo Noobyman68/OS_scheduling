@@ -5,13 +5,14 @@
 #include "../general/list.h"
 #include "../general/cpu.h"
 
-int tid = 0;
-node *head;
-node *last;
+static node *head = NULL, *last = NULL;
 
 //return the index of list position or -1 for error
 int add(char *name, int priority, int burst){
+
+  static int tid = 0;
   int check = 0;
+
   printf("Creating task\n");
   Task new_task = {name, tid, priority, burst};
   Task *task_ptr = &new_task; 
@@ -26,8 +27,10 @@ int add(char *name, int priority, int burst){
     printf("insert ending\n");
   }else{
     printf("adding head\n");
-    head->task = task_ptr;
-    head->next = NULL;
+    node first_node = {task_ptr, NULL};
+
+    printf("temp node created\n");
+    head = &first_node;
     last = head;
     printf("Head added\n");
   }
