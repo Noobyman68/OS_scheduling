@@ -60,6 +60,8 @@ void delete(node **head, Task *task) {
         prev->next = temp->next;
     }
     // nodes are malloced and need to be freed to avoid memory leaks
+    free(temp->task->name);
+    free(temp->task);
     free(temp);
 }
 

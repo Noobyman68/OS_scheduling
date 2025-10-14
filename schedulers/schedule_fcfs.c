@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../general/task.h"
 #include "../general/list.h"
@@ -9,37 +10,33 @@ static node *head = NULL, *last = NULL;
 
 //return the index of list position or -1 for error
 int add(char *name, int priority, int burst){
-
   static int tid = 0;
   int check = 0;
 
-  printf("Creating task\n");
-  Task new_task = {name, tid, priority, burst};
-  Task *task_ptr = &new_task; 
-  printf("task created\n");
+  Task *task_ptr = malloc(sizeof(Task));
+  if(task_ptr == NULL){
+    printf("Failure allocated task\n");
+    return -1;
+  }
 
-  if(tid){
-    printf("insert starting\n");
+  task_ptr->name = strdup(name);
+  task_ptr->tid = tid;
+  task_ptr->priority = priority;
+  task_ptr->burst = burst;
+
     if((check = insert(&last, task_ptr)) < 0){
       printf("error adding task\n");
       return -1;
     }
-    printf("insert ending\n");
-  }else{
-    printf("adding head\n");
-    node first_node = {task_ptr, NULL};
+    if(check == 1){
+      head = last;
+    }
 
-    printf("temp node created\n");
-    head = &first_node;
-    last = head;
-    printf("Head added\n");
-  }
   tid++;
   return 0;
 }
 
 void schedule(){
-  printf("traversing\n");
   traverse(head);
 }
 
