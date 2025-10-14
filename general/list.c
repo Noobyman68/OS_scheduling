@@ -44,9 +44,6 @@ void delete(node **head, Task *task) {
     if (strcmp(task->name,temp->task->name) == 0) {
         *head = (*head)->next;
 
-        // pointers to freed memory should be set to null to prevent hanging pointers
-        *head = NULL;
-        head = NULL;
     }else{
         // interior or last element in the list
         prev = *head;

@@ -37,7 +37,20 @@ int add(char *name, int priority, int burst){
 }
 
 void schedule(){
-  traverse(head);
+  node *temp = head;
+  while(temp != NULL){
+    int slice = temp->task->burst;
+    run(temp->task, slice);
+    temp = temp->next;
+    delete(&head, head->task);
+    head = temp;
+  }
+  if(!temp){
+    printf("list cleared\n");
+  }
+  if(!head){
+    printf("list cleared\n");
+  }
 }
 
 
