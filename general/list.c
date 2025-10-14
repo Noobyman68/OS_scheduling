@@ -11,17 +11,24 @@
 
 
 // add a new task to the list of tasks
-int insert(node **head, Task *newTask) {
+int insert(node **last, Task *newTask) {
     node *newNode = malloc(sizeof(node));
 
     if(newNode == NULL){
       printf("Failure allocating memory\n");
       return -1;
     }
-    
+
     newNode->task = newTask;
-    newNode->next = *head;
-    *head = newNode;
+    newNode->next = NULL;
+
+    if(*last == NULL){
+      *last = newNode;
+      return 1;
+    }
+    
+    (*last)->next = newNode;
+    (*last) = newNode;
 
     return 0;
 }
@@ -59,14 +66,9 @@ void delete(node **head, Task *task) {
 // traverse the list
 void traverse(node *head) {
     node *temp = head;
-//    temp = head;
-    printf("traversal start, head: %p, temp: %p\n", head, temp);
 
     while (temp != NULL) {
-        printf("%p\n", temp->next);
         printf("[%s] [%d] [%d]\n",temp->task->name, temp->task->priority, temp->task->burst);
-        printf("%p\n", temp->next);
         temp = temp->next;
-        printf("%p\n", temp->next);
     }
 }
