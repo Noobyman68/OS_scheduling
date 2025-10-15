@@ -20,15 +20,8 @@ int insert(node **last, Task *newTask) {
     }
 
     newNode->task = newTask;
-    newNode->next = NULL;
-
-    if(*last == NULL){
-      *last = newNode;
-      return 1;
-    }
-    
-    (*last)->next = newNode;
-    (*last) = newNode;
+    newNode->next = *head;
+    *head = newNode;
 
     return 0;
 }
