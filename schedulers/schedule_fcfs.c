@@ -8,8 +8,6 @@
 
 static node *head = NULL;
 
-
-
 int add(char *name, int priority, int burst){
   static int tid = 0;
   int check = 0;
