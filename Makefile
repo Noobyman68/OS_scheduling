@@ -35,19 +35,19 @@ schedule_fcfs.o: schedulers/schedule_fcfs.c
 priority_rr: driver.o list.o CPU.o schedule_priority_rr.o
 	$(CC) $(CFLAGS) -o priority_rr driver.o schedule_priority_rr.o list.o CPU.o
 
-schedule_priority_rr.o: schedule_priority_rr.c
+schedule_priority_rr.o: schedulers/schedule_priority_rr.c
 	$(CC) $(CFLAGS) -c  schedulers/schedule_priority_rr.c 
 
 driver.o: general/driver.c
 	$(CC) $(CFLAGS) -c general/driver.c
 
-schedule_sjf.o: schedule_sjf.c
+schedule_sjf.o: schedulers/schedule_sjf.c
 	$(CC) $(CFLAGS) -c schedulers/schedule_sjf.c
 
-schedule_priority.o: schedule_priority.c
+schedule_priority.o: schedulers/schedule_priority.c
 	$(CC) $(CFLAGS) -c schedulers/schedule_priority.c
 
-schedule_rr.o: schedule_rr.c
+schedule_rr.o: schedulers/schedule_rr.c
 	$(CC) $(CFLAGS) -c schedulers/schedule_rr.c
 
 list.o: general/list.c general/list.h

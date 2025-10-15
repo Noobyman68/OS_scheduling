@@ -50,7 +50,6 @@ int add(char *name, int priority, int burst){
   }else{
     last->next = cur;
   }
-  printf("[%s] [%d] [%d]\n",last->task->name, last->task->priority, last->task->burst);
 
   tid++;
   return 0;
