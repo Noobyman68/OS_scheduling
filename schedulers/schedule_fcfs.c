@@ -6,9 +6,10 @@
 #include "../general/list.h"
 #include "../general/cpu.h"
 
-static node *head = NULL, *last = NULL;
+static node *head = NULL;
 
-//return the index of list position or -1 for error
+
+
 int add(char *name, int priority, int burst){
   static int tid = 0;
   int check = 0;
@@ -24,34 +25,37 @@ int add(char *name, int priority, int burst){
   task_ptr->priority = priority;
   task_ptr->burst = burst;
 
-    if((check = insert(&last, task_ptr)) < 0){
-      printf("error adding task\n");
-      return -1;
-    }
-    if(check == 1){
-      head = last;
-    }
-
-  tid++;
+  if((check = insert(&head, task_ptr)) < 0){
+    printf("error adding task\n");
+    return -1;
+  }
   return 0;
 }
 
-void schedule(){
-  node *temp = head;
-  while(temp != NULL){
-    int slice = temp->task->burst;
-    run(temp->task, slice);
-    temp = temp->next;
-    delete(&head, head->task);
-    head = temp;
-  }
-  if(!temp){
-    printf("list cleared\n");
-  }
+int reverse_traverse(node *head){
   if(!head){
-    printf("list cleared\n");
+    return 0;
   }
+  int slice = head->task->burst;
+
+  int count = reverse_traverse(head->next);
+
+  int wait = count;
+  int response = count;
+
+  run(head->task, slice);
+  delete(&head, head->task);
+
+  count+= slice;
+  int turn_around = count;
+
+  printf("Waiting Time: %d\n", wait);
+  printf("Turnaround Time: %d\n", turn_around);
+  printf("Response Time: %d\n", response);
+
+  return count;
 }
-
-
-
+void schedule(){
+  traverse(head);
+  reverse_traverse(head);
+}
