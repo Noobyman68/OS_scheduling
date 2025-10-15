@@ -27,14 +27,19 @@ int add(char *name, int priority, int burst){
   task_ptr->burst = burst;
 
   if(head){
-    last = head;
-    cur = head->next;
+    cur = head;
     while(cur && priority < cur->task->priority){
       last = cur;
       cur = cur->next;
     }
   }
+
   if(last == head){
+    node *newNode = malloc(sizeof(node));
+    newNode->task = task_ptr;
+    newNode->next = head;
+    head = newNode;
+    return 0;
   }
 
   if((check = insert(&last, task_ptr)) < 0){
@@ -42,10 +47,7 @@ int add(char *name, int priority, int burst){
     return -1;
   }else if(check==1){
     head = last;
-    printf("head: %p, last: %p\n", head, last);
   }else{
-    printf("segfault at end\n");
-    printf("head: %p, last: %p\n", head, last);
     last->next = cur;
   }
   printf("[%s] [%d] [%d]\n",last->task->name, last->task->priority, last->task->burst);
