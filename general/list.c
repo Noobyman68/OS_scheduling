@@ -11,7 +11,7 @@
 
 
 // add a new task to the list of tasks
-int insert(node **last, Task *newTask) {
+int insert(node **head, Task *newTask) {
     node *newNode = malloc(sizeof(node));
 
     if(newNode == NULL){
