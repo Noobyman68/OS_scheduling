@@ -27,8 +27,13 @@ int add(char *name, int priority, int burst){
     printf("error adding task\n");
     return -1;
   }
+  
+  tid++;
+
+  printf("Adding Node #%d\n", tid);
   traverse(head);
   printf("\n");
+
   return 0;
 }
 
