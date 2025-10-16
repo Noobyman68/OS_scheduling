@@ -10,7 +10,6 @@ static node *head = NULL;
 
 int add(char *name, int priority, int burst){
   static int tid = 0;
-  int check = 0;
 
   Task *task_ptr = malloc(sizeof(Task));
   if(task_ptr == NULL){
@@ -23,10 +22,7 @@ int add(char *name, int priority, int burst){
   task_ptr->priority = priority;
   task_ptr->burst = burst;
 
-  if((check = insert(&head, task_ptr)) < 0){
-    printf("error adding task\n");
-    return -1;
-  }
+  insert(&head, task_ptr);
 
   tid++;
 
