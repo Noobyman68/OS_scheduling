@@ -6,7 +6,7 @@
 #include "list.h"
 #include "cpu.h"
 
-static node *head = NULL;
+static struct node *head = NULL;
 
 int add(char *name, int priority, int burst){
   static int tid = 0;
@@ -38,7 +38,7 @@ void schedule(){
   int count = 0;
   int slice;
   int wait, response, turn_around;
-  node *temp;
+  struct node *temp;
   Task *lowest;
 
   while(head){

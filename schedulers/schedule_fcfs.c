@@ -6,7 +6,7 @@
 #include "list.h"
 #include "cpu.h"
 
-static node *head = NULL;
+static struct node *head = NULL;
 
 int add(char *name, int priority, int burst){
   static int tid = 0;
@@ -26,14 +26,14 @@ int add(char *name, int priority, int burst){
 
   tid++;
 
-  printf("Adding node #%d\n", tid);
+  printf("Adding struct node #%d\n", tid);
   traverse(head);
   printf("\n");
 
   return 0;
 }
 
-int reverse_traverse(node *head){
+int reverse_traverse(struct node *head){
   if(!head){
     return 0;
   }
