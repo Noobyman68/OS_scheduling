@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../general/task.h"
-#include "../general/list.h"
-#include "../general/cpu.h"
+#include "task.h"
+#include "list.h"
+#include "cpu.h"
 
 static node *head = NULL;
 
