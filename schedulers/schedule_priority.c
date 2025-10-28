@@ -8,16 +8,13 @@
 
 static node *head = NULL;
 
-//return the index of list position or -1 for error
 int add(char *name, int priority, int burst){
   static int tid = 0;
   int check = 0;
-  node *last = head;
-  node *cur = NULL;
 
   Task *task_ptr = malloc(sizeof(Task));
   if(task_ptr == NULL){
-    printf("Failure allocated task\n");
+    printf("Failure allocating task\n");
     return -1;
   }
 
@@ -26,42 +23,51 @@ int add(char *name, int priority, int burst){
   task_ptr->priority = priority;
   task_ptr->burst = burst;
 
-  if(head){
-    cur = head;
-    while(cur && priority < cur->task->priority){
-      last = cur;
-      cur = cur->next;
-    }
-  }
-
-  if(last == head){
-    node *newNode = malloc(sizeof(node));
-    newNode->task = task_ptr;
-    newNode->next = head;
-    head = newNode;
-    return 0;
-  }
-
-  if((check = insert(&last, task_ptr)) < 0){
+  if((check = insert(&head, task_ptr)) < 0){
     printf("error adding task\n");
     return -1;
-  }else if(check==1){
-    head = last;
-  }else{
-    last->next = cur;
   }
-
+  
   tid++;
+
+  printf("Adding Node #%d\n", tid);
+  traverse(head);
+  printf("\n");
+
   return 0;
 }
 
+
 void schedule(){
-  node *temp = head;
-  while(temp != NULL){
-    int slice = temp->task->burst;
-    run(temp->task, slice);
-    temp = temp->next;
-    delete(&head, head->task);
-    head = temp;
-  }
+  int count = 0;
+  int slice;
+  int wait, response, turn_around;
+  node *temp;
+  Task *highest;
+
+  while(head){
+    highest = head->task;
+    temp = head->next;
+
+    while(temp){
+      if(temp->task->priority > highest->priority){
+        highest = temp->task;
+      }
+      temp = temp->next;
+    }
+    slice = highest->burst;
+
+    wait = count;
+    response = count;
+
+    run(highest,slice);
+    delete(&head, highest);
+
+    count += slice;
+    turn_around = count;
+
+    printf("Waiting Time: %d\n", wait);
+    printf("Turnaround Time: %d\n", turn_around);
+    printf("Response Time: %d\n", response);
+  } 
 }
