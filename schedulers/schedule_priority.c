@@ -2,22 +2,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../general/task.h"
-#include "../general/list.h"
-#include "../general/cpu.h"
+#include "task.h"
+#include "list.h"
+#include "cpu.h"
 
-static node *head = NULL;
+static struct node *head = NULL;
 
-//return the index of list position or -1 for error
 int add(char *name, int priority, int burst){
   static int tid = 0;
-  int check = 0;
-  node *last = head;
-  node *cur = NULL;
 
   Task *task_ptr = malloc(sizeof(Task));
   if(task_ptr == NULL){
-    printf("Failure allocated task\n");
+    printf("Failure allocating task\n");
     return -1;
   }
 
@@ -26,42 +22,40 @@ int add(char *name, int priority, int burst){
   task_ptr->priority = priority;
   task_ptr->burst = burst;
 
-  if(head){
-    cur = head;
-    while(cur && priority < cur->task->priority){
-      last = cur;
-      cur = cur->next;
-    }
-  }
-
-  if(last == head){
-    node *newNode = malloc(sizeof(node));
-    newNode->task = task_ptr;
-    newNode->next = head;
-    head = newNode;
-    return 0;
-  }
-
-  if((check = insert(&last, task_ptr)) < 0){
-    printf("error adding task\n");
-    return -1;
-  }else if(check==1){
-    head = last;
-  }else{
-    last->next = cur;
-  }
+  insert(&head, task_ptr);
 
   tid++;
+
+  printf("Adding struct node #%d\n", tid);
+  traverse(head);
+  printf("\n");
+
   return 0;
 }
 
-void schedule(){
-  node *temp = head;
-  while(temp != NULL){
-    int slice = temp->task->burst;
-    run(temp->task, slice);
-    temp = temp->next;
-    delete(&head, head->task);
-    head = temp;
+int reverse_traverse(struct node *head){
+  if(!head){
+    return 0;
   }
+  int slice = head->task->burst;
+
+  int count = reverse_traverse(head->next);
+
+  int wait = count;
+  int response = count;
+
+  run(head->task, slice);
+  delete(&head, head->task);
+
+  count+= slice;
+  int turn_around = count;
+
+  printf("Waiting Time: %d\n", wait);
+  printf("Turnaround Time: %d\n", turn_around);
+  printf("Response Time: %d\n", response);
+
+  return count;
+}
+void schedule(){
+  reverse_traverse(head);
 }
