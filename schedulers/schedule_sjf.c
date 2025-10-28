@@ -13,7 +13,7 @@ int add(char *name, int priority, int burst){
 
   Task *task_ptr = malloc(sizeof(Task));
   if(task_ptr == NULL){
-    printf("Failure allocated task\n");
+    printf("Failure allocating task\n");
     return -1;
   }
 
@@ -56,7 +56,7 @@ void schedule(){
     wait = count;
     response = count;
 
-    run(lowest,lowest->burst);
+    run(lowest,slice);
     delete(&head, lowest);
 
     count += slice;

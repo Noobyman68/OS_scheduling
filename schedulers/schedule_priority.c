@@ -33,29 +33,36 @@ int add(char *name, int priority, int burst){
   return 0;
 }
 
-int reverse_traverse(struct node *head){
-  if(!head){
-    return 0;
-  }
-  int slice = head->task->burst;
-
-  int count = reverse_traverse(head->next);
-
-  int wait = count;
-  int response = count;
-
-  run(head->task, slice);
-  delete(&head, head->task);
-
-  count+= slice;
-  int turn_around = count;
-
-  printf("Waiting Time: %d\n", wait);
-  printf("Turnaround Time: %d\n", turn_around);
-  printf("Response Time: %d\n", response);
-
-  return count;
-}
 void schedule(){
-  reverse_traverse(head);
+  int count = 0;
+  int slice;
+  int wait, response, turn_around;
+  struct node *temp;
+  Task *lowest;
+
+  while(head){
+    highest = head->task;
+    temp = head->next;
+
+    while(temp){
+      if(temp->task->priority > highest->priority){
+        highest = temp->task;
+      }
+      temp = temp->next;
+    }
+    slice = highest->burst;
+
+    wait = count;
+    response = count;
+
+    run(highest,slice);
+    delete(&head, highest);
+
+    count += slice;
+    turn_around = count;
+
+    printf("Waiting Time: %d\n", wait);
+    printf("Turnaround Time: %d\n", turn_around);
+    printf("Response Time: %d\n", response);
+  } 
 }
