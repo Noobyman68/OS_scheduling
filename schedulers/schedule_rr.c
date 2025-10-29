@@ -43,22 +43,24 @@ int add(char *name, int priority, int burst){
 void schedule(){
   int run_times[size];
   int responses[size];
+  memset(run_times, 0, sizeof(int) * size);
+  memset(responses, 0, sizeof(int) * size);
+
   int index, t_burst;
   int count = 0;
   const int slice = 2;
 
-  node *temp;
+  node *temp, *last;
 
   while(head){
     temp = head;
+    last = head;
     
-    index = 0;
 
     while(temp){
-      printf("index: %d\n", index);
-      // may be indexing problem with incorrect indexes being accessed once nodes get deleted
-      // some int value from responses or run_times may be getting set to pointer which is causing such high and random values
+      index = temp->task->tid;
       t_burst = temp->task->burst;
+
       if(run_times[index] == 0){
         responses[index] = count;
         run_times[index] = t_burst;
@@ -68,18 +70,20 @@ void schedule(){
         run(temp->task,t_burst);
         delete(&head, temp->task);
 
-        printf("Waiting Time: %d\n", count - run_times[index]);
+        temp = last;
+
+        printf("\nWaiting Time: %d\n", count - run_times[index]);
         printf("Turnaround Time: %d\n", count);
         printf("Response Time: %d\n", responses[index]);
 
       }else{
         temp->task->burst -= slice;
         count += slice;
+        last = temp;
         run(temp->task,slice);
       }
       temp = temp->next;
       index++;
     }
-    printf("\n%d\n", count);
   } 
 }
