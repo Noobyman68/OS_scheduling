@@ -38,7 +38,7 @@ void schedule(){
   int slice;
   int wait, response, turn_around;
   struct node *temp;
-  Task *lowest;
+  Task *highest;
 
   while(head){
     highest = head->task;
